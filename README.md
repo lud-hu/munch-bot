@@ -1,26 +1,12 @@
 # The Munch-Bot
 
-A tiny Lambda Function (http://docs.aws.amazon.com/lambda/latest/dg/welcome.html) that 
-parses the html of the Paparazzi-Menu of the day (http://pace.webspeiseplan.de/) and posts
-it into our #general slack-channel.
-The execution of the Lambda is triggered via a daily Cloudwatch event at 11:30 a.m.
+Forked from https://github.com/spring-media/munch-bot
+and adapted to use Konrad and Nemetschek restaurant in Munich and send their menus to a Microsoft Teams channel.
 
-## Deployment
-
-To execute the deployment, AWS credentials with enough rights have to be available.
-The role "MinimalLambdaRole" just needs rights to write to Cloudwatch-Logs.
-
+To run it, e.g. add cronjob:
 ```
-$ yarn install
-$ gulp deploy
+0 10 * * * npm run runBot --prefix /home/user/munch-bot/
 ```
 
-## local developement
-
-```
-$ node lambdaLocal.js
-```
-
-## next features:
-
-- regularily download and save all available menu-plans and then provide full-text-search via bot command, e.g. `/munchbot pasta`
+The script fetches the Menu of the day and posts it into our Microsoft Teams channel (set in env.json).
+The execution of the script is triggered via a cronjob at 10:00 am.
