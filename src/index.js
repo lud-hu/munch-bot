@@ -91,7 +91,7 @@ function extractMenueMessage(json) {
       const kategorie = `\n\n\n **${categoryName}** \n\n`
       const meals = item.meals
       .filter( meal => typeof meal.name !== 'undefined' && meal.name !== '0')
-      .map( meal => ` ${meal.name} _${typeof meal.price !== 'undefined' ? meal.price : ''}_`).join('\n\n')
+      .map( meal => ` ${meal.name} ${typeof meal.price !== 'undefined' ? '_' + meal.price + '_' : ''}`).join('\n\n')
       return `${kategorie} ${meals}`
     }).join('<br><br>');
 }
@@ -105,13 +105,15 @@ function formatMeal(gerichte) {
   for(const gericht of gerichte[0]){
     const info = gericht.zusatzinformationen
     let price;
-    if(info.mitarbeiterpreisDecimal2){
-      price = printPrice(info.mitarbeiterpreisDecimal2)
-      if(info.gaestepreisDecimal2){
-        price += ` / Menü: `+printPrice(info.gaestepreisDecimal2)
+    if (typeof info !== 'undefined') {
+      if(info.mitarbeiterpreisDecimal2){
+        price = printPrice(info.mitarbeiterpreisDecimal2)
+        if(info.gaestepreisDecimal2){
+          price += ` / Menü: `+printPrice(info.gaestepreisDecimal2)
+        }
+      } else if(info.price3Decimal2 && info.price4Decimal2){
+        price = `klein: `+printPrice(info.price3Decimal2)+` / groß: `+printPrice(info.price4Decimal2)
       }
-    } else if(info.price3Decimal2 && info.price4Decimal2){
-      price = `klein: `+printPrice(info.price3Decimal2)+` / groß: `+printPrice(info.price4Decimal2)
     }
 
     const kategorieID = gericht.speiseplanAdvancedGericht.gerichtkategorieID
