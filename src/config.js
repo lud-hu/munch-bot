@@ -1,4 +1,7 @@
 module.exports = {
+    debug: {
+        teamsHook: process.env.TEAMS_HOOK_DEBUG
+    },
     konrad: {
         title: "Konrad",
         baseUrl: "http://leonardi.webspeiseplan.de",

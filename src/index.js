@@ -16,7 +16,7 @@ exports.handler = function () {
             const konradCard = createTeamsCard(config.konrad.title, extractMenueMessage(json), config.konrad.niceUrl);
             sendToTeams(konradCard, config.konrad.teamsHook);
 
-          }).catch(e => console.log("error", e));
+          }).catch(e => tryToSendError(e));
 
           // Fetch, parse and send Nemetschek menu
           var nemetschekRes = nfetch(config.nemetschek.url, { headers: { Referer: config.nemetschek.refererUrl }})
@@ -26,15 +26,20 @@ exports.handler = function () {
             const nemetschekCard = createTeamsCard(config.nemetschek.title, extractMenueMessage(json), config.nemetschek.niceUrl);
             sendToTeams(nemetschekCard, config.nemetschek.teamsHook);
 
-          });
+          }).catch(e => tryToSendError(e));
 
         } catch(e) {
-          console.log("Error!", e);
+          tryToSendError(e);
         }
     }
 
     console.log("finish munch-bot")
 };
+
+function tryToSendError(e) {
+  sendToTeams(createTeamsCard("ERROR", e.toString(), ""), config.debug.teamsHook);
+  console.log("Error! Sent to debug teams channel.", e);
+}
 
 function isHoliday() {
     const today = new Date();
