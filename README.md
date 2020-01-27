@@ -10,3 +10,13 @@ To run it, e.g. add cronjob:
 
 The script fetches the Menu of the day and posts it into our Microsoft Teams channel (set in env.json).
 The execution of the script is triggered via a cronjob at 10:00 am.
+
+## Sample env.json
+
+```json
+
+{
+    "TEAMS_HOOK_KONRAD": "https://outlook.office.com/webhook/...",
+    "TEAMS_HOOK_NEMETSCHEK": "https://outlook.office.com/webhook/..."
+}
+```
